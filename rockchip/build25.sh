@@ -60,6 +60,19 @@ if [ "$INCLUDE_DOCKER" = "yes" ]; then
     PACKAGES="$PACKAGES luci-i18n-dockerman-zh-cn"
     echo "Adding package: luci-i18n-dockerman-zh-cn"
 fi
+# ===== DNS 架构集成（dnsmasq -> AdGuardHome:5050 -> SmartDNS:6060）=====
+# SmartDNS（含 WebUI :6080）
+PACKAGES="$PACKAGES smartdns"
+PACKAGES="$PACKAGES smartdns-ui"
+PACKAGES="$PACKAGES luci-app-smartdns"
+PACKAGES="$PACKAGES luci-i18n-smartdns-zh-cn"
+# AdGuardHome（包版二进制 /usr/bin/AdGuardHome，与 files/etc/init.d/AdGuardHome 的 binpath 一致；
+# luci-app-adguardhome 提供面板与 /usr/share/AdGuardHome 辅助脚本 waitnet.sh 等）
+PACKAGES="$PACKAGES adguardhome"
+PACKAGES="$PACKAGES luci-app-adguardhome"
+# ===== Docker 数据分区（/dev/mmcblk0p3 btrfs -> /mnt/docker）=====
+PACKAGES="$PACKAGES kmod-fs-btrfs"
+PACKAGES="$PACKAGES btrfs-progs"
 # 文件管理器
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
 # ======== shell/custom-packages.sh =======
